@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погодное приложение</string>
+    <string name="weather">Погода</string>
+    <string name="temperature">Температура</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="pressure">Давление</string>
+    <string name="feels_like">Ощущается как</string>
+    <string name="error_loading">Ошибка загрузки данных о погоде</string>
+    <string name="retry">Повторить</string>
+    <string name="refresh">Обновить</string>
+    <string name="settings">Настройки</string>
+    <string name="location">Местоположение</string>
+    <string name="search">Поиск</string>
+    <string name="enter_city">Введите название города</string>
+    <string name="no_internet">Нет подключения к интернету</string>
+    <string name="loading">Загрузка…</string>
+    <string name="no_weather_data">Нет данных о погоде</string>
+    
+    <!-- Weather conditions -->
+    <string name="weather_partly_cloudy">Переменная облачность</string>
+    <string name="weather_patchy_light_drizzle">Местами легкая морось</string>
+    <string name="weather_sunny">Солнечно</string>
+    <string name="weather_clear">Ясно</string>
+    <string name="weather_patchy_rain_nearby">Местами небольшой дождь</string>
+</resources> 

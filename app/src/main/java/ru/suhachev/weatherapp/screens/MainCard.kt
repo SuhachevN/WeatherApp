@@ -157,7 +157,10 @@ fun TubLayout(
     selectedDayIndex: Int,
     onDaySelected: (Int) -> Unit
 ) {
-    val tabList = listOf("HOURS", "DAYS")
+    val tabList = listOf(
+        stringResource(R.string.tab_hours),
+        stringResource(R.string.tab_days)
+    )
     val pagerState = rememberPagerState(initialPage = 0) { tabList.size }
     val coroutineScope = rememberCoroutineScope()
 

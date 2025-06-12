@@ -35,9 +35,9 @@ fun ListItem(
             .clickable(enabled = onClick != null) { onClick?.invoke() },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) 
+            containerColor = if (isSelected)
                 MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-            else 
+            else
                 MaterialTheme.colorScheme.surface
         )
     ) {

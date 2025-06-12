@@ -15,7 +15,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = OnPrimaryDark,
     background = BackgroundDark,
     onBackground = OnBackgroundDark,
-    surface = CardSurfaceDark
+    surface = CardSurfaceDark,
+    error = ErrorDark
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -23,7 +24,8 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = OnPrimary,
     background = Background,
     onBackground = OnBackground,
-    surface = CardSurface
+    surface = CardSurface,
+    error = Error
 )
 
 @Composable

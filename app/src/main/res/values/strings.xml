@@ -19,11 +19,19 @@
     <string name="no_weather_data">No weather data</string>
     
     <!-- Weather conditions -->
-    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_partly_cloudy">Partly Cloudy</string>
     <string name="weather_patchy_light_drizzle">Patchy light drizzle</string>
     <string name="weather_sunny">Sunny</string>
     <string name="weather_clear">Clear</string>
     <string name="weather_patchy_rain_nearby">Patchy rain nearby</string>
+    <string name="weather_thunder">Thunderstorm</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_lightning">Lightning</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_mist">Mist</string>
+    <string name="weather_thundery_outbreaks">Thundery outbreaks in nearby</string>
+    <string name="weather_patchy_light_rain_thunder">Patchy light rain in area with thunder</string>
+    <string name="weather_patchy_light_rain">Patchy light rain</string>
     
     <!-- Tabs -->
     <string name="tab_hours">Hours</string>

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -18,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import ru.suhachev.weatherapp.ui.components.WeatherAnimation
 import ru.suhachev.weatherapp.util.WeatherConditionMapper
 
 @Composable
@@ -56,16 +57,20 @@ fun ListItem(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AsyncImage(
-                    modifier = Modifier.size(35.dp),
-                    model = weather.icon.takeIf { it.isNotBlank() } ?: "https://cdn.weatherapi.com/weather/64x64/day/302.png",
-                    contentDescription = stringResource(WeatherConditionMapper.getConditionResource(weather.condition))
+                WeatherAnimation(
+                    weatherType = weather.condition,
+                    icon = weather.icon,
+                    modifier = Modifier.size(35.dp)
                 )
                 if (!showRange) {
                     Text(
                         text = stringResource(WeatherConditionMapper.getConditionResource(weather.condition)),
                         fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        softWrap = false,
+                        modifier = Modifier.sizeIn(maxWidth = 120.dp),
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                 }
             }

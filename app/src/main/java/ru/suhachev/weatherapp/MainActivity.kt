@@ -108,6 +108,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        requestLocation()
     }
 
     @SuppressLint("MissingPermission")

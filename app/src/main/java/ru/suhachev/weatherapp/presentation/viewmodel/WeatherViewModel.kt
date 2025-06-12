@@ -38,9 +38,14 @@ class WeatherViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e("WeatherViewModel", "Error loading weather", e)
+                val message = when {
+                    e is java.net.SocketTimeoutException -> "Не удалось получить данные: превышено время ожидания."
+                    e is java.net.UnknownHostException -> "Нет подключения к интернету."
+                    else -> e.message ?: "Неизвестная ошибка"
+                }
                 _state.value = _state.value.copy(
                     isLoading = false,
-                    error = e.message ?: "Unknown error occurred"
+                    error = message
                 )
             }
         }

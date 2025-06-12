@@ -24,6 +24,14 @@
     <string name="weather_sunny">Солнечно</string>
     <string name="weather_clear">Ясно</string>
     <string name="weather_patchy_rain_nearby">Местами небольшой дождь</string>
+    <string name="weather_thunder">Гроза</string>
+    <string name="weather_thunderstorm">Гроза</string>
+    <string name="weather_lightning">Молния</string>
+    <string name="weather_cloudy">Облачно</string>
+    <string name="weather_mist">Туман</string>
+    <string name="weather_thundery_outbreaks">Гроза поблизости</string>
+    <string name="weather_patchy_light_rain_thunder">Местами небольшой дождь с грозой</string>
+    <string name="weather_patchy_light_rain">Местами небольшой дождь</string>
     
     <!-- Tabs -->
     <string name="tab_hours">Часы</string>

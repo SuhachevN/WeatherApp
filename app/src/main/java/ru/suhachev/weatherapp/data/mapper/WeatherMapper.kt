@@ -9,7 +9,7 @@ fun WeatherDto.toDomain(): Pair<List<WeatherModel>, WeatherModel> {
             city = location.name,
             time = dayDto.date,
             currentTemp = "",
-            condition = dayDto.day.condition.text,
+            condition = dayDto.day.condition.text.trim(),
             icon = "https:" + dayDto.day.condition.icon,
             maxTemp = dayDto.day.maxtemp_c.toInt().toString(),
             minTemp = dayDto.day.mintemp_c.toInt().toString(),
@@ -20,7 +20,7 @@ fun WeatherDto.toDomain(): Pair<List<WeatherModel>, WeatherModel> {
         city = location.name,
         time = current.last_updated,
         currentTemp = current.temp_c.toInt().toString(),
-        condition = current.condition.text,
+        condition = current.condition.text.trim(),
         icon = "https:" + current.condition.icon,
         maxTemp = days.firstOrNull()?.maxTemp ?: "",
         minTemp = days.firstOrNull()?.minTemp ?: "",
@@ -32,6 +32,6 @@ fun WeatherDto.toDomain(): Pair<List<WeatherModel>, WeatherModel> {
 fun HourDto.toDomain(): HourModel = HourModel(
     time = time.split(" ").getOrNull(1) ?: time,
     temp = temp_c.toInt().toString(),
-    condition = condition.text,
+    condition = condition.text.trim(),
     icon = "https:" + condition.icon
 ) 

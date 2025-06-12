@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import ru.suhachev.weatherapp.ui.components.WeatherAnimation
 import kotlinx.coroutines.launch
 import ru.suhachev.weatherapp.R
 import ru.suhachev.weatherapp.domain.model.WeatherModel
@@ -82,10 +82,10 @@ fun MainCard(
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(end = 8.dp)
                         )
-                        AsyncImage(
-                            modifier = Modifier.size(35.dp),
-                            model = dayWeather?.icon?.takeIf { it.isNotBlank() } ?: weather?.icon?.takeIf { it.isNotBlank() } ?: "https://cdn.weatherapi.com/weather/64x64/day/302.png",
-                            contentDescription = null
+                        WeatherAnimation(
+                            weatherType = dayWeather?.condition ?: weather?.condition ?: "sunny",
+                            icon = dayWeather?.icon ?: weather?.icon ?: "",
+                            modifier = Modifier.size(35.dp)
                         )
                     }
                 }

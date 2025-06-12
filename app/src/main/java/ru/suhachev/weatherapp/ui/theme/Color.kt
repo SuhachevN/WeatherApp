@@ -3,16 +3,17 @@ package ru.suhachev.weatherapp.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Light Theme
-val PinkPrimary = Color(0xFFFFB6C1)
+val PinkPrimary = Color(0xFFE91E63)
 val OnPrimary = Color(0xFFFFFFFF)
-val Background = Color(0xFFFFF1F6)
-val OnBackground = Color(0xFF33333D)
-val CardSurface = Color(0x66FDD7D7)
+val Background = Color(0xFF218693)
+val OnBackground = Color(0xFFFFFFFF)
+val CardSurface = Color(0x99FFFFFF)
+val Error = Color(0xFFB00020)
 
 // Dark Theme
-
-val PinkPrimaryDark = Color(0xFFE573A6)
-val OnPrimaryDark = Color(0xFFF8F8F8)
-val BackgroundDark = Color(0xFF2D2233)
-val OnBackgroundDark = Color(0xFFFFD1E3)
-val CardSurfaceDark = Color(0x663A2C4A)
+val PinkPrimaryDark = Color(0xFFFF4081)
+val OnPrimaryDark = Color(0xFFFFFFFF)
+val BackgroundDark = Color(0xFF0A2A30)
+val OnBackgroundDark = Color(0xFFE1E1E1)
+val CardSurfaceDark = Color(0x99218693)
+val ErrorDark = Color(0xFFCF6679)

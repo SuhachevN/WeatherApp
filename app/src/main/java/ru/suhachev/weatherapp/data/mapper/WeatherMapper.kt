@@ -1,4 +1,4 @@
-package ru.suhachev.weatherapp.data.mapper
+    package ru.suhachev.weatherapp.data.mapper
 
 import ru.suhachev.weatherapp.data.model.*
 import ru.suhachev.weatherapp.domain.model.*

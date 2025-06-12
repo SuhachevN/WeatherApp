@@ -24,4 +24,8 @@
     <string name="weather_sunny">Sunny</string>
     <string name="weather_clear">Clear</string>
     <string name="weather_patchy_rain_nearby">Patchy rain nearby</string>
+    
+    <!-- Tabs -->
+    <string name="tab_hours">Hours</string>
+    <string name="tab_days">Days</string>
 </resources>

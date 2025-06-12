@@ -1,11 +1,15 @@
 package ru.suhachev.weatherapp.di
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.suhachev.weatherapp.data.local.WeatherDatabase
 import ru.suhachev.weatherapp.data.network.WeatherApiService
 import ru.suhachev.weatherapp.data.repository.WeatherRepositoryImpl
 import ru.suhachev.weatherapp.domain.repository.WeatherRepository
@@ -34,8 +38,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(api: WeatherApiService): WeatherRepository =
-        WeatherRepositoryImpl(api, API_KEY)
+    fun provideWeatherDatabase(
+        @ApplicationContext context: Context
+    ): WeatherDatabase {
+        return Room.databaseBuilder(
+            context,
+            WeatherDatabase::class.java,
+            "weather_database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDao(database: WeatherDatabase) = database.weatherDao()
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(
+        api: WeatherApiService,
+        dao: ru.suhachev.weatherapp.data.local.WeatherDao
+    ): WeatherRepository =
+        WeatherRepositoryImpl(api, dao, API_KEY)
 
     @Provides
     @Singleton

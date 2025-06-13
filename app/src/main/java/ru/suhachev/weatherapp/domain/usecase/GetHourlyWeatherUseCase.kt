@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetHourlyWeatherUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    suspend operator fun invoke(city: String): List<WeatherModel> {
-        return repository.getWeather(city).first
+    suspend operator fun invoke(city: String, forceRefresh: Boolean = false): List<WeatherModel> {
+        return repository.getWeather(city, forceRefresh).first
     }
 } 

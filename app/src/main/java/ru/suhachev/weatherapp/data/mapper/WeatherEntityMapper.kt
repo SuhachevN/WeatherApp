@@ -1,10 +1,13 @@
 package ru.suhachev.weatherapp.data.mapper
 
+import ru.suhachev.weatherapp.data.local.ForecastDayEntity
+import ru.suhachev.weatherapp.data.local.HourEntity
 import ru.suhachev.weatherapp.data.local.WeatherEntity
+import ru.suhachev.weatherapp.domain.model.HourModel
 import ru.suhachev.weatherapp.domain.model.WeatherModel
 
-fun WeatherEntity.toDomain(): Pair<List<WeatherModel>, WeatherModel> {
-    val current = WeatherModel(
+fun WeatherEntity.toDomain(hours: List<HourModel>): WeatherModel {
+    return WeatherModel(
         city = city,
         time = time,
         currentTemp = currentTemp,
@@ -12,9 +15,8 @@ fun WeatherEntity.toDomain(): Pair<List<WeatherModel>, WeatherModel> {
         icon = icon,
         maxTemp = maxTemp,
         minTemp = minTemp,
-        hours = emptyList()
+        hours = hours
     )
-    return Pair(listOf(current), current)
 }
 
 fun WeatherModel.toEntity(): WeatherEntity {
@@ -26,5 +28,50 @@ fun WeatherModel.toEntity(): WeatherEntity {
         icon = icon,
         maxTemp = maxTemp,
         minTemp = minTemp
+    )
+}
+
+fun ForecastDayEntity.toDomain(hours: List<HourModel>): WeatherModel {
+    return WeatherModel(
+        city = city,
+        time = date,
+        currentTemp = currentTemp,
+        condition = condition,
+        icon = icon,
+        maxTemp = maxTemp,
+        minTemp = minTemp,
+        hours = hours
+    )
+}
+
+fun WeatherModel.toForecastDayEntity(): ForecastDayEntity {
+    return ForecastDayEntity(
+        city = city,
+        date = time,
+        currentTemp = currentTemp,
+        condition = condition,
+        icon = icon,
+        maxTemp = maxTemp,
+        minTemp = minTemp
+    )
+}
+
+fun HourEntity.toDomain(): HourModel {
+    return HourModel(
+        time = time,
+        temp = temp,
+        condition = condition,
+        icon = icon
+    )
+}
+
+fun HourModel.toEntity(forecastDayId: Long, date: String): HourEntity {
+    return HourEntity(
+        forecastDayId = forecastDayId,
+        date = date,
+        time = time,
+        temp = temp,
+        condition = condition,
+        icon = icon
     )
 } 

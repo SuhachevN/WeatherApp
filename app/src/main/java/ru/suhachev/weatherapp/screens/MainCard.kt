@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +47,9 @@ fun MainCard(
     modifier: Modifier = Modifier,
     weather: WeatherModel? = null,
     dayWeather: WeatherModel? = null,
-    onSync: (() -> Unit)? = null
+    onSync: (() -> Unit)? = null,
+    onSearchClick: () -> Unit,
+    isLoading: Boolean = false
 ) {
     val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
     Column(
@@ -59,89 +62,105 @@ fun MainCard(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentAlignment = Alignment.Center
             ) {
-                Row(
+                Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = dayWeather?.time?.takeIf { it.isNotBlank() } ?: weather?.time?.takeIf { it.isNotBlank() } ?: "-",
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
-                            text = currentTime,
+                            text = dayWeather?.time?.takeIf { it.isNotBlank() } ?: weather?.time?.takeIf { it.isNotBlank() } ?: "-",
                             fontSize = 15.sp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.padding(end = 8.dp)
+                            color = MaterialTheme.colorScheme.onSurface
                         )
-                        WeatherAnimation(
-                            weatherType = dayWeather?.condition ?: weather?.condition ?: "sunny",
-                            icon = dayWeather?.icon ?: weather?.icon ?: "",
-                            modifier = Modifier.size(35.dp)
-                        )
-                    }
-                }
-                
-                Text(
-                    text = dayWeather?.city?.takeIf { it.isNotBlank() } ?: weather?.city?.takeIf { it.isNotBlank() } ?: "-",
-                    fontSize = 24.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                
-                Text(
-                    text = dayWeather?.currentTemp?.takeIf { it.isNotBlank() }?.let { "$it°C" } 
-                        ?: weather?.currentTemp?.takeIf { it.isNotBlank() }?.let { "$it°C" } ?: "-",
-                    fontSize = 45.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                
-                Text(
-                    text = dayWeather?.condition?.takeIf { it.isNotBlank() }?.let { 
-                        stringResource(WeatherConditionMapper.getConditionResource(it))
-                    } ?: weather?.condition?.takeIf { it.isNotBlank() }?.let {
-                        stringResource(WeatherConditionMapper.getConditionResource(it))
-                    } ?: "-",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = { /* TODO: Implement search */ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_search),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = currentTime,
+                                fontSize = 15.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            WeatherAnimation(
+                                weatherType = dayWeather?.condition ?: weather?.condition ?: "sunny",
+                                icon = dayWeather?.icon ?: weather?.icon ?: "",
+                                modifier = Modifier.size(35.dp)
+                            )
+                        }
                     }
                     
                     Text(
-                        text = dayWeather?.let {
-                            val maxTemp = it.maxTemp.takeIf { t -> t.isNotBlank() } ?: "-"
-                            val minTemp = it.minTemp.takeIf { t -> t.isNotBlank() } ?: "-"
-                            "${maxTemp}°C/${minTemp}°C"
+                        text = dayWeather?.city?.takeIf { it.isNotBlank() } ?: weather?.city?.takeIf { it.isNotBlank() } ?: "-",
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    
+                    Text(
+                        text = dayWeather?.currentTemp?.takeIf { it.isNotBlank() }?.let { "$it°C" } 
+                            ?: weather?.currentTemp?.takeIf { it.isNotBlank() }?.let { "$it°C" } ?: "-",
+                        fontSize = 45.sp,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    
+                    Text(
+                        text = dayWeather?.condition?.takeIf { it.isNotBlank() }?.let { 
+                            stringResource(WeatherConditionMapper.getConditionResource(it))
+                        } ?: weather?.condition?.takeIf { it.isNotBlank() }?.let {
+                            stringResource(WeatherConditionMapper.getConditionResource(it))
                         } ?: "-",
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     
-                    IconButton(onClick = { onSync?.invoke() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_sync),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = onSearchClick) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_search),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                        
+                        Text(
+                            text = dayWeather?.let {
+                                val maxTemp = it.maxTemp.takeIf { t -> t.isNotBlank() } ?: "-"
+                                val minTemp = it.minTemp.takeIf { t -> t.isNotBlank() } ?: "-"
+                                "${maxTemp}°C/${minTemp}°C"
+                            } ?: "-",
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
+                        
+                        IconButton(
+                            onClick = { onSync?.invoke() },
+                            enabled = !isLoading
+                        ) {
+                            if (isLoading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    strokeWidth = 2.dp
+                                )
+                            } else {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_sync),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
                     }
                 }
             }

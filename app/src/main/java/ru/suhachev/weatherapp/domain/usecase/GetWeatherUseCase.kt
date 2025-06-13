@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetWeatherUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    suspend operator fun invoke(city: String): Pair<List<WeatherModel>, WeatherModel> {
-        return repository.getWeather(city)
+    suspend operator fun invoke(city: String, forceRefresh: Boolean = false): Pair<List<WeatherModel>, WeatherModel> {
+        return repository.getWeather(city, forceRefresh)
     }
 } 

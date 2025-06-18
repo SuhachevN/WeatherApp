@@ -1,8 +1,8 @@
 package ru.suhachev.weatherapp.data.mapper
 
-import ru.suhachev.weatherapp.data.local.ForecastDayEntity
-import ru.suhachev.weatherapp.data.local.HourEntity
-import ru.suhachev.weatherapp.data.local.WeatherEntity
+import ru.suhachev.weatherapp.data.entity.ForecastDayEntity
+import ru.suhachev.weatherapp.data.entity.HourEntity
+import ru.suhachev.weatherapp.data.entity.WeatherEntity
 import ru.suhachev.weatherapp.domain.model.HourModel
 import ru.suhachev.weatherapp.domain.model.WeatherModel
 

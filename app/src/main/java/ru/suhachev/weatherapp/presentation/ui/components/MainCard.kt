@@ -1,4 +1,4 @@
-package ru.suhachev.weatherapp.screens
+package ru.suhachev.weatherapp.presentation.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,14 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.suhachev.weatherapp.ui.components.WeatherAnimation
 import kotlinx.coroutines.launch
 import ru.suhachev.weatherapp.R
 import ru.suhachev.weatherapp.domain.model.WeatherModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import ru.suhachev.weatherapp.util.WeatherConditionMapper
+import ru.suhachev.weatherapp.presentation.util.WeatherConditionMapper
 
 @Composable
 fun MainCard(
@@ -91,7 +91,6 @@ fun MainCard(
                             )
                             WeatherAnimation(
                                 weatherType = dayWeather?.condition ?: weather?.condition ?: "sunny",
-                                icon = dayWeather?.icon ?: weather?.icon ?: "",
                                 modifier = Modifier.size(35.dp)
                             )
                         }
@@ -171,7 +170,6 @@ fun MainCard(
 @Composable
 fun TubLayout(
     modifier: Modifier = Modifier,
-    current: WeatherModel?,
     dayList: List<WeatherModel>,
     selectedDayIndex: Int,
     onDaySelected: (Int) -> Unit
@@ -277,8 +275,10 @@ private fun DaysWeatherContent(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        items(dayList) { weather ->
-            val index = dayList.indexOf(weather)
+        itemsIndexed(
+            items = dayList,
+            key = { _, item -> item.time } // Используем дату как уникальный ключ
+        ) { index, weather ->
             ListItem(
                 weather = weather,
                 showRange = true,

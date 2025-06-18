@@ -1,14 +1,14 @@
 package ru.suhachev.weatherapp.domain.usecase
 
-import ru.suhachev.weatherapp.data.model.CitySearchDto
-import ru.suhachev.weatherapp.data.network.WeatherApiService
+import ru.suhachev.weatherapp.data.dto.GeocodingResultDto
+import ru.suhachev.weatherapp.data.network.GeocodingApiService
 import javax.inject.Inject
 
 class SearchCityUseCase @Inject constructor(
-    private val api: WeatherApiService,
-    private val apiKey: String
+    private val geocodingApi: GeocodingApiService
 ) {
-    suspend operator fun invoke(query: String): List<CitySearchDto> {
-        return api.searchCity(apiKey = apiKey, query = query)
+    suspend operator fun invoke(query: String): List<GeocodingResultDto> {
+        val result = geocodingApi.searchCity(name = query)
+        return result.results ?: emptyList()
     }
 } 

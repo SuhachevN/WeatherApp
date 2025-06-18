@@ -1,7 +1,9 @@
-package ru.suhachev.weatherapp.data.local
+package ru.suhachev.weatherapp.data.dao
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import ru.suhachev.weatherapp.data.entity.ForecastDayEntity
+import ru.suhachev.weatherapp.data.entity.HourEntity
+import ru.suhachev.weatherapp.data.entity.WeatherEntity
 
 @Dao
 interface WeatherDao {

@@ -90,4 +90,6 @@ dependencies {
     // Navigation
     implementation(libs.navigation.compose)
     implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.accompanist.permissions)
 }

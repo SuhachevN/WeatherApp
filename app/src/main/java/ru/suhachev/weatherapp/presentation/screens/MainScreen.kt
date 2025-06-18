@@ -1,29 +1,31 @@
-package ru.suhachev.weatherapp.screens
+package ru.suhachev.weatherapp.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.suhachev.weatherapp.presentation.viewmodel.WeatherViewModel
-import ru.suhachev.weatherapp.ui.theme.WeatherAppTheme
+import ru.suhachev.weatherapp.presentation.ui.components.MainCard
+import ru.suhachev.weatherapp.presentation.ui.components.TubLayout
+import ru.suhachev.weatherapp.presentation.ui.theme.WeatherAppTheme
 
 @Composable
 fun MainScreen(
     onSearchClick: () -> Unit,
     viewModel: WeatherViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
-
-    LaunchedEffect(Unit) {
-        if (state.current == null) {
-            viewModel.loadWeather("Tyumen", showCacheFirst = true)
-        }
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    
+    Log.d("MainScreen", "State received: isLoading=${state.isLoading}, hasCurrent=${state.current != null}, daysCount=${state.days.size}")
+    state.current?.let {
+        Log.d("MainScreen", "Current weather: city=${it.city}, temp=${it.currentTemp}, condition=${it.condition}")
     }
 
     WeatherAppTheme {
@@ -55,7 +57,7 @@ fun MainScreen(
                                     .fillMaxWidth()
                                     .padding(16.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     text = state.error ?: "",
@@ -76,13 +78,14 @@ fun MainScreen(
                         dayWeather = state.days.getOrNull(state.selectedDayIndex),
                         onSearchClick = onSearchClick,
                         onSync = {
-                            state.current?.let { viewModel.loadWeather(it.city, forceRefresh = true) }
+                            if (state.lastQuery.isNotEmpty()) {
+                                viewModel.loadWeather(state.lastQuery, forceRefresh = true)
+                            }
                         },
                         isLoading = state.isLoading
                     )
                     TubLayout(
                         modifier = Modifier.weight(0.6f),
-                        current = state.current,
                         dayList = state.days,
                         selectedDayIndex = state.selectedDayIndex,
                         onDaySelected = { index -> viewModel.updateSelectedDay(index) }

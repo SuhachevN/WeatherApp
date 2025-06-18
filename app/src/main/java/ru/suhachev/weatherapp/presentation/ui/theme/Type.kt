@@ -1,4 +1,4 @@
-package ru.suhachev.weatherapp.ui.theme
+package ru.suhachev.weatherapp.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

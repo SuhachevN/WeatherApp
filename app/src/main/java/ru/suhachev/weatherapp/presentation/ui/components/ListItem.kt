@@ -1,4 +1,4 @@
-package ru.suhachev.weatherapp.screens
+package ru.suhachev.weatherapp.presentation.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.suhachev.weatherapp.ui.components.WeatherAnimation
-import ru.suhachev.weatherapp.util.WeatherConditionMapper
+import ru.suhachev.weatherapp.presentation.util.WeatherConditionMapper
 
 @Composable
 fun ListItem(
@@ -59,7 +58,6 @@ fun ListItem(
             ) {
                 WeatherAnimation(
                     weatherType = weather.condition,
-                    icon = weather.icon,
                     modifier = Modifier.size(35.dp)
                 )
                 if (!showRange) {

@@ -7,27 +7,26 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.suhachev.weatherapp.data.local.WeatherDao
-import ru.suhachev.weatherapp.data.local.WeatherDatabase
+import ru.suhachev.weatherapp.data.dao.WeatherDao
+import ru.suhachev.weatherapp.data.dao.GeocodingDao
+import ru.suhachev.weatherapp.data.database.WeatherDatabase
 import ru.suhachev.weatherapp.data.network.WeatherApiService
+import ru.suhachev.weatherapp.data.network.GeocodingApiService
 import ru.suhachev.weatherapp.data.repository.WeatherRepositoryImpl
 import ru.suhachev.weatherapp.domain.repository.WeatherRepository
-import ru.suhachev.weatherapp.domain.usecase.GetCurrentWeatherUseCase
-import ru.suhachev.weatherapp.domain.usecase.GetHourlyWeatherUseCase
-import ru.suhachev.weatherapp.domain.usecase.SearchCityUseCase
-import ru.suhachev.weatherapp.util.LocationManager
+import ru.suhachev.weatherapp.presentation.util.LocationManager
+import ru.suhachev.weatherapp.presentation.util.AndroidGeocoder
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    private const val API_KEY = "7fab0999bb4146c7956124829250706"
 
     @Provides
     @Singleton
     fun provideLocationManager(
         @ApplicationContext context: Context
-    ): LocationManager = LocationManager()
+    ): LocationManager = LocationManager(context)
 
     @Provides
     @Singleton
@@ -49,25 +48,25 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(
-        api: WeatherApiService,
-        dao: WeatherDao
-    ): WeatherRepository {
-        return WeatherRepositoryImpl(api, dao, API_KEY)
+    fun provideGeocodingDao(db: WeatherDatabase): GeocodingDao {
+        return db.geocodingDao()
     }
 
     @Provides
     @Singleton
-    fun provideGetCurrentWeatherUseCase(repository: WeatherRepository): GetCurrentWeatherUseCase =
-        GetCurrentWeatherUseCase(repository)
+    fun provideAndroidGeocoder(
+        @ApplicationContext context: Context,
+        geocodingDao: GeocodingDao
+    ): AndroidGeocoder = AndroidGeocoder(context, geocodingDao)
 
     @Provides
     @Singleton
-    fun provideGetHourlyWeatherUseCase(repository: WeatherRepository): GetHourlyWeatherUseCase =
-        GetHourlyWeatherUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun provideSearchCityUseCase(api: WeatherApiService): SearchCityUseCase =
-        SearchCityUseCase(api, API_KEY)
+    fun provideWeatherRepository(
+        weatherApi: WeatherApiService,
+        geocodingApi: GeocodingApiService,
+        dao: WeatherDao,
+        androidGeocoder: AndroidGeocoder
+    ): WeatherRepository {
+        return WeatherRepositoryImpl(weatherApi, geocodingApi, dao, androidGeocoder)
+    }
 } 

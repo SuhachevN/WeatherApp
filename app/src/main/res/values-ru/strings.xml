@@ -32,6 +32,9 @@
     <string name="weather_thundery_outbreaks">Гроза поблизости</string>
     <string name="weather_patchy_light_rain_thunder">Местами небольшой дождь с грозой</string>
     <string name="weather_patchy_light_rain">Местами небольшой дождь</string>
+    <string name="weather_snow">Снег</string>
+    <string name="weather_heavy_rain">Сильный дождь</string>
+    <string name="weather_heavy_snow">Сильный снегопад</string>
     
     <!-- Tabs -->
     <string name="tab_hours">Часы</string>

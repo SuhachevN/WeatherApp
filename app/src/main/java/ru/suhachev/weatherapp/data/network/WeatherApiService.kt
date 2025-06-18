@@ -2,22 +2,17 @@ package ru.suhachev.weatherapp.data.network
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.suhachev.weatherapp.data.model.WeatherDto
-import ru.suhachev.weatherapp.data.model.CitySearchDto
+import ru.suhachev.weatherapp.data.dto.WeatherDto
 
 interface WeatherApiService {
-    @GET("forecast.json")
+    @GET("v1/forecast")
     suspend fun getWeather(
-        @Query("key") apiKey: String,
-        @Query("q") city: String,
-        @Query("days") days: Int = 3,
-        @Query("aqi") aqi: String = "no",
-        @Query("alerts") alerts: String = "no"
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("hourly") hourly: String = "temperature_2m,weathercode",
+        @Query("daily") daily: String = "weathercode,temperature_2m_max,temperature_2m_min",
+        @Query("current_weather") currentWeather: Boolean = true,
+        @Query("timezone") timezone: String = "auto",
+        @Query("forecast_days") forecastDays: Int = 7
     ): WeatherDto
-
-    @GET("search.json")
-    suspend fun searchCity(
-        @Query("key") apiKey: String,
-        @Query("q") query: String
-    ): List<CitySearchDto>
 } 

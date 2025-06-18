@@ -7,5 +7,6 @@ data class WeatherState(
     val days: List<WeatherModel> = emptyList(),
     val current: WeatherModel? = null,
     val error: String? = null,
-    val selectedDayIndex: Int = 0
+    val selectedDayIndex: Int = 0,
+    val lastQuery: String = ""
 ) 
